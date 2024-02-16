@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "name": "T-shirt",
+    "price": "20",
+    "image": "/assets/t-shirt.jpeg"
+  },
+  {
+    "id": "2",
+    "name": "Jeans",
+    "price": "50",
+    "image": "/assets/jean.jpeg"
+  },
+  {
+    "id": "3",
+    "name": "Dress",
+    "price": "30",
+    "image": "/assets/dress.jpeg"
+  },
+  {
+    "id": "4",
+    "name": "Shirt",
+    "price": "25",
+    "image": "/assets/shirt.jpeg"
+  },
+  {
+    "id": "5",
+    "name": "Sweater",
+    "price": "35",
+    "image": "/assets/sweater.jpeg"
+  },
+  {
+    "id": "6",
+    "name": "Skirt",
+    "price": "40",
+    "image": "/assets/skirt.jpeg"
+  },
+  {
+    "id": "7",
+    "name": "Jacket",
+    "price": "60",
+    "image": "/assets/jacket.jpeg"
+  },
+  {
+    "id": "8",
+    "name": "Blouse",
+    "price": "30",
+    "image": "/assets/blouse.jpeg"
+  },
+  {
+    "id": "9",
+    "name": "Shorts",
+    "price": "20",
+    "image": "/assets/shorts.jpeg"
+  },
+  {
+    "id": "10",
+    "name": "Coat",
+    "price": "80",
+    "image": "/assets/coat.jpeg"
+  }
+]
