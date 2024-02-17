@@ -1,79 +1,91 @@
-"use client";
-
 import { useState } from "react";
 import mock from "@/public/mocks/product.json";
 import Products from "@/components/products/Products";
+import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 
 interface Props {
   params: { id: string };
 }
 
 const Home: React.FC<Props> = ({ params }) => {
-  const numInstances = Number(params.id);
-  const [selectPositions, setSelectPositions] = useState<string[]>([]);
+  const numProducts = Number(params.id);
+  const numContainers = Math.ceil(numProducts / 3);
+  const [containerPositions, setContainerPositions] = useState(
+    Array.from({ length: numContainers }, (_, index) => index + 1)
+  );
 
-  const handleSelectChange = (index: number, value: string) => {
-    setSelectPositions((prevPositions) => {
-      const newPositions = [...prevPositions];
-      newPositions[index] = value;
-      return newPositions;
-    });
-  };
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
 
-  if (numInstances > mock.length) {
-    alert("No hay suficiente stock disponible.");
-    return null;
-  }
+    if (!over) return; // Si no hay un contenedor de destino, salir
 
-  const numContainers = Math.ceil(numInstances / 3);
+    const sourceIndex = Number(active.id);
+    const destinationIndex = Number(over.id);
 
-  const getProductsForContainer = (containerIndex: number) => {
-    const startIndex = containerIndex * 3;
-    const endIndex = Math.min(startIndex + 3, numInstances);
-    return Array.from(
-      { length: endIndex - startIndex },
-      (_, index) => startIndex + index + 1
-    );
+    if (sourceIndex === destinationIndex) return; // Si el elemento se soltó en su posición original, salir
+
+    const newPosition = [...containerPositions];
+    const movedContainer = newPosition.splice(sourceIndex, 1)[0];
+    newPosition.splice(destinationIndex, 0, movedContainer);
+
+    setContainerPositions(newPosition);
   };
 
   return (
-    <div className="flex">
-      <div className="flex flex-col w-full justify-center">
-        {Array.from({ length: numContainers }, (_, containerIndex) => {
-          const productPosition = () => {
-            if (selectPositions[containerIndex] === "right") {
-              return "end";
-            }
-            if (selectPositions[containerIndex] === "left") {
-              return "start";
-            }
-            return "center";
-          };
+    <DndContext onDragEnd={handleDragEnd}>
+      <div className="flex">
+        <div className="flex flex-col w-full justify-center">
+          {containerPositions.map((position, index) => (
+            <Container
+              key={index}
+              index={index}
+              position={position}
+              numProducts={numProducts}
+            />
+          ))}
+        </div>
+      </div>
+    </DndContext>
+  );
+};
 
-          return (
-            <div
-              key={containerIndex}
-              className={`relative flex w-full m-auto justify-${productPosition()} my-10 border p-10 border-red-500 `}
-            >
-              {getProductsForContainer(containerIndex).map((productId) => (
-                <div key={productId} className="ml-10">
-                  <Products id={productId} />
-                </div>
-              ))}
-              <div className="absolute right-0 mr-2 -top-10">
-                <select
-                  onChange={(e) =>
-                    handleSelectChange(containerIndex, e.target.value)
-                  }
-                >
-                  <option value="center">Center</option>
-                  <option value="right">Right</option>
-                  <option value="left">Left</option>
-                </select>
-              </div>
+const Container: React.FC<{
+  index: number;
+  position: number;
+  numProducts: number;
+}> = ({ index, position, numProducts }) => {
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: index.toString(),
+    });
+
+  const { isOver, setNodeRef: setDropNodeRef } = useDroppable({
+    id: index.toString(),
+  });
+
+  const startProductIndex = (position - 1) * 3 + 1;
+  const endProductIndex = Math.min(position * 3, numProducts);
+
+  return (
+    <div
+      key={position}
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      className={`transform ${
+        transform ? `translate-x-${transform.x} translate-y-${transform.y}` : ""
+      } border-2 border-red-500 p-4 m-4 cursor-grab rounded-lg ${
+        isOver ? "bg-gray-200" : ""
+      } ${isDragging ? "opacity-50" : ""} transition-opacity duration-300`}
+    >
+      <div ref={setDropNodeRef} className="flex h-full p-8">
+        {mock
+          .slice(startProductIndex - 1, endProductIndex)
+          .map((product, index) => (
+            <div key={index} className="ml-4">
+              <Products id={Number(product.id)} />
             </div>
-          );
-        })}
+          ))}
       </div>
     </div>
   );
