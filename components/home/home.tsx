@@ -44,27 +44,32 @@ const Home: React.FC<Props> = ({ params }) => {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="flex flex-col justify-start">
-        {containerPositions.map((item, index) => (
-          <div className="mb-10" key={index}>
-            <span>Fila {index + 1}</span>
-            <Checkbox
-              onChange={(value) => handleAlignmentChange(value, index)}
-            />
-          </div>
-        ))}
-      </div>
+    <div className="flex flex-col  justify-between">
       <DndContext onDragEnd={handleDragEnd}>
         <div className="flex flex-col justify-center">
           {containerPositions.map((container, index) => (
-            <Container
-              key={index}
-              index={index}
-              position={container.position}
-              alignment={container.alignment}
-              numProducts={numProducts}
-            />
+            <div key={index} className="flex items-start justify-between">
+              {/* Contenedor de fila */}
+              <div className="mb-10">
+                <div className="mb-4 flex">
+                  <span className="bg-[#EEEEEE] p-3 rounded-lg">
+                    Fila {index + 1}
+                  </span>
+                </div>
+                <Checkbox
+                  onChange={(value) => handleAlignmentChange(value, index)}
+                />
+              </div>
+              {/* Contenedor de contenedor */}
+              <div>
+                <Container
+                  index={index}
+                  position={container.position}
+                  alignment={container.alignment}
+                  numProducts={numProducts}
+                />
+              </div>
+            </div>
           ))}
         </div>
       </DndContext>
@@ -91,16 +96,15 @@ const Container: React.FC<{
   const endProductIndex = Math.min(position * 3, numProducts);
 
   return (
-    <div>
+    <div className="w-[50rem]">
       <div
         key={position}
         ref={setNodeRef}
         {...attributes}
         {...listeners}
-        className={`relative  bg-[#EEEEEE] p-4 m-4 cursor-grab rounded-lg ${
+        className={`relative  bg-[#EEEEEE] p-4 m-4 cursor-grab rounded-lg w-full${
           isOver ? "bg-gray-200" : ""
         } ${isDragging ? "opacity-50" : ""} transition-opacity duration-300`}
-        style={{ minWidth: "200px" }}
       >
         <div
           ref={setDropNodeRef}
