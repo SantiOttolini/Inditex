@@ -602,45 +602,36 @@ video {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
-.pointer-events-none {
-  pointer-events: none;
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 2rem;
+  padding-left: 2rem;
 }
-.fixed {
-  position: fixed;
-}
-.absolute {
-  position: absolute;
+@media (min-width: 1400px) {
+
+  .container {
+    max-width: 1400px;
+  }
 }
 .relative {
   position: relative;
 }
-.-top-10 {
-  top: -2.5rem;
-}
-.right-0 {
-  right: 0px;
-}
-.z-50 {
-  z-index: 50;
-}
-.m-auto {
-  margin: auto;
+.m-1 {
+  margin: 0.25rem;
 }
 .m-4 {
   margin: 1rem;
 }
-.my-10 {
-  margin-top: 2.5rem;
+.mb-10 {
   margin-bottom: 2.5rem;
-}
-.ml-10 {
-  margin-left: 2.5rem;
 }
 .mr-2 {
   margin-right: 0.5rem;
 }
-.ml-4 {
-  margin-left: 1rem;
+.mr-4 {
+  margin-right: 1rem;
 }
 .flex {
   display: flex;
@@ -648,8 +639,8 @@ video {
 .h-10 {
   height: 2.5rem;
 }
-.h-full {
-  height: 100%;
+.h-44 {
+  height: 11rem;
 }
 .w-full {
   width: 100%;
@@ -660,11 +651,20 @@ video {
 .cursor-grab {
   cursor: grab;
 }
+.flex-row {
+  flex-direction: row;
+}
 .flex-col {
   flex-direction: column;
 }
 .items-center {
   align-items: center;
+}
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-end {
+  justify-content: flex-end;
 }
 .justify-center {
   justify-content: center;
@@ -672,15 +672,9 @@ video {
 .rounded-lg {
   border-radius: var(--radius);
 }
-.border {
-  border-width: 1px;
-}
-.border-2 {
-  border-width: 2px;
-}
-.border-red-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(239 68 68 / var(--tw-border-opacity));
+.bg-\[\#EEEEEE\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(238 238 238 / var(--tw-bg-opacity));
 }
 .bg-gray-200 {
   --tw-bg-opacity: 1;
@@ -689,14 +683,18 @@ video {
 .p-10 {
   padding: 2.5rem;
 }
+.p-2 {
+  padding: 0.5rem;
+}
 .p-4 {
   padding: 1rem;
 }
-.p-8 {
-  padding: 2rem;
+.pt-10 {
+  padding-top: 2.5rem;
 }
-.p-20 {
-  padding: 5rem;
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 .opacity-50 {
   opacity: 0.5;
@@ -725,4 +723,137 @@ video {
 }
 .duration-300 {
   animation-duration: 300ms;
+}
+
+
+/* CUBE */
+.cube-loader {
+  position: relative;
+  width: 75px;
+  height: 75px;
+  transform-style: preserve-3d;
+  transform: rotateX(-30deg);
+  animation: animate 4s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    transform: rotateX(-30deg) rotateY(0);
+  }
+
+  100% {
+    transform: rotateX(-30deg) rotateY(360deg);
+  }
+}
+
+.cube-loader .cube-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* top: 0;
+  left: 0; */
+  transform-style: preserve-3d;
+}
+
+.cube-loader .cube-wrapper .cube-span {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* top: 0;
+  left: 0; */
+                                     /* width 75px / 2 = 37.5px */
+  transform: rotateY(calc(90deg * var(--i))) translateZ(37.5px);
+  background: linear-gradient(
+    to bottom,
+    hsl(330, 3.13%, 25.1%) 0%,
+    hsl(177.27, 21.71%, 32.06%) 5.5%,
+    hsl(176.67, 34.1%, 36.88%) 12.1%,
+    hsl(176.61, 42.28%, 40.7%) 19.6%,
+    hsl(176.63, 48.32%, 43.88%) 27.9%,
+    hsl(176.66, 53.07%, 46.58%) 36.6%,
+    hsl(176.7, 56.94%, 48.91%) 45.6%,
+    hsl(176.74, 62.39%, 50.91%) 54.6%,
+    hsl(176.77, 69.86%, 52.62%) 63.4%,
+    hsl(176.8, 76.78%, 54.08%) 71.7%,
+    hsl(176.83, 83.02%, 55.29%) 79.4%,
+    hsl(176.85, 88.44%, 56.28%) 86.2%,
+    hsl(176.86, 92.9%, 57.04%) 91.9%,
+    hsl(176.88, 96.24%, 57.59%) 96.3%,
+    hsl(176.88, 98.34%, 57.93%) 99%,
+    hsl(176.89, 99.07%, 58.04%) 100%
+  );
+}
+
+.cube-top {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  background: hsl(330, 3.13%, 25.1%) 0%;
+                      /* width 75px / 2 = 37.5px */
+  transform: rotateX(90deg) translateZ(37.5px);
+  transform-style: preserve-3d;
+}
+
+.cube-top::before {
+  content: '';
+  position: absolute;
+/* u can choose any size */
+  width: 75px;
+  height: 75px;
+  background: hsl(176.61, 42.28%, 40.7%) 19.6%;
+  transform: translateZ(-90px);
+  filter: blur(10px);
+  box-shadow: 0 0 10px #323232,
+              0 0 20px hsl(176.61, 42.28%, 40.7%) 19.6%,
+              0 0 30px #323232,
+              0 0 40px hsl(176.61, 42.28%, 40.7%) 19.6%;
+}
+
+
+
+/* CHECKBOX */
+.radio-inputs {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 0.5rem;
+  background-color: #EEE;
+  box-sizing: border-box;
+  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+  padding: 0.25rem;
+  width: 300px;
+  font-size: 14px;
+}
+
+.radio-inputs .radio {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.radio-inputs .radio input {
+  display: none;
+}
+
+.radio-inputs .radio .name {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: none;
+  padding: .5rem 0;
+  color: rgba(51, 65, 85, 1);
+  transition: all .15s ease-in-out;
+}
+
+.radio-inputs .radio input:checked + .name {
+  background-color: #fff;
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+
+  .md\:m-10 {
+    margin: 2.5rem;
+  }
 }
