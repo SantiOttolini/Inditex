@@ -19,7 +19,6 @@ const Checkbox: React.FC<Props> = ({ onChange }) => {
         <label className="radio">
           <input
             className="mr-2"
-            defaultChecked
             type="radio"
             id="centro"
             name="alineacion"

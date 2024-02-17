@@ -27,6 +27,6 @@ export const ProductItem: React.FC<{ product: Product }> = ({ product }) => (
       </div>
     </div>
     <span className="text-sm pt-10">{product.name}</span>
-    <span className="text-sm">{product.price} USD</span>
+    <span className="text-sm">{product.price}</span>
   </div>
 );
