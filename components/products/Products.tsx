@@ -1,6 +1,6 @@
 import { getProducts } from "@/api/card";
 import React from "react";
-import { ProductItem } from "./ProductItem";
+import { ProductItem } from "@/components/products/ProductItem";
 import { Product } from "@/app/types/product";
 
 interface Props {

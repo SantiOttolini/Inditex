@@ -1,7 +1,7 @@
 "use client";
 
 import { NextPage } from "next";
-import Home from "@/components/home/home";
+import Home from "@/components/home/Home";
 
 interface Props {
   params: { id: string };
