@@ -1,11 +1,11 @@
 "use client";
 import { useDraggable, useDroppable } from "@dnd-kit/core";
 import React from "react";
-import mock from "@/public/mocks/product.json";
+import mockedProducts from "@/public/mocks/product.json";
 import Products from "@/components/products/Products";
-import Checkbox from "@/ui/checkbox/checkbox";
+import Tab from "@/ui/tab/Tab";
 
-export const Container: React.FC<{
+export const ContainerGrillRow: React.FC<{
   index: number;
   position: number;
   numProducts: number;
@@ -26,37 +26,37 @@ export const Container: React.FC<{
 
   const [selectedAlignment, setSelectedAlignment] = React.useState(alignment);
 
-  const handleCheckboxChange = (value: string) => {
+  const handleTabChange = (value: string) => {
     setSelectedAlignment(value);
     handleAlignmentChange(value, index);
   };
 
   return (
-    Number(url) < mock.length && (
+    Number(url) < mockedProducts.length && (
       <>
         <div className="mb-2 flex">
           <div className="mr-2">
-            <Checkbox
+            <Tab
               value="center"
               isChecked={selectedAlignment === "center"}
               name="Center"
-              onChange={handleCheckboxChange}
+              onChange={handleTabChange}
             />
           </div>
           <div className="mr-2">
-            <Checkbox
+            <Tab
               value="end"
               isChecked={selectedAlignment === "end"}
               name="Right"
-              onChange={handleCheckboxChange}
+              onChange={handleTabChange}
             />
           </div>
           <div className="mr-2">
-            <Checkbox
+            <Tab
               value="start"
               isChecked={selectedAlignment === "start"}
               name="Left"
-              onChange={handleCheckboxChange}
+              onChange={handleTabChange}
             />
           </div>
         </div>
@@ -78,11 +78,13 @@ export const Container: React.FC<{
               className={`flex flex-row justify-${alignment} items-center h-44`}
               style={{ minHeight: "200px" }}
             >
-              {mock
+              {mockedProducts
                 .slice(startProductIndex - 1, endProductIndex)
                 .map((product, index) => (
                   <div key={index} className="m-1 md:m-10">
-                    <Products id={Number(product.id)} />
+                    <DraggableProduct productId={product.id}>
+                      <Products id={Number(product.id)} />
+                    </DraggableProduct>
                   </div>
                 ))}
             </div>
@@ -90,5 +92,17 @@ export const Container: React.FC<{
         </div>
       </>
     )
+  );
+};
+
+const DraggableProduct = ({ productId, children }: any) => {
+  const { attributes, listeners, setNodeRef } = useDraggable({
+    id: productId.toString(),
+  });
+
+  return (
+    <div ref={setNodeRef} {...attributes} {...listeners}>
+      {children}
+    </div>
   );
 };

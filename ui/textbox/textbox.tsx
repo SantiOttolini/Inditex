@@ -1,15 +1,12 @@
 "use client";
 
-import { NextPage } from "next";
 import React from "react";
-
-interface Props {}
 
 interface Props {
   onInputChange: (value: string) => void;
 }
 
-const Textbox: NextPage<Props> = ({ onInputChange }) => {
+const Textbox: React.FC<Props> = ({ onInputChange }) => {
   const [inputValue, setInputValue] = React.useState("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

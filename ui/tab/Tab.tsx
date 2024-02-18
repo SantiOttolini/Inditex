@@ -7,14 +7,14 @@ interface Props {
   onChange: (value: string) => void;
 }
 
-const Checkbox: React.FC<Props> = ({ value, isChecked, onChange, name }) => {
+const Tab: React.FC<Props> = ({ value, isChecked, onChange, name }) => {
   const [checked, setChecked] = React.useState(isChecked);
 
   React.useEffect(() => {
     setChecked(isChecked);
   }, [isChecked]);
 
-  const handleCheckboxChange = () => {
+  const handleTabChange = () => {
     const newValue = !checked;
     setChecked(newValue);
     onChange(value);
@@ -29,7 +29,7 @@ const Checkbox: React.FC<Props> = ({ value, isChecked, onChange, name }) => {
           name={name}
           value={value}
           checked={isChecked}
-          onChange={handleCheckboxChange}
+          onChange={handleTabChange}
         />
         <span className="name">{name}</span>
       </label>
@@ -37,4 +37,4 @@ const Checkbox: React.FC<Props> = ({ value, isChecked, onChange, name }) => {
   );
 };
 
-export default Checkbox;
+export default Tab;

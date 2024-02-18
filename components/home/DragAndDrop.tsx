@@ -1,6 +1,6 @@
 import { DndContext } from "@dnd-kit/core";
 import React from "react";
-import { Container } from "@/components/home/Container";
+import { ContainerGrillRow } from "@/components/home/ContainerGrillRow";
 
 interface Props {
   containerPositions: Array<{
@@ -20,14 +20,14 @@ const DragAndDrop: React.FC<Props> = ({
 }) => {
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <div className="flex flex-col justify-center">
+      <div className="flex flex-col justify-center ">
         {containerPositions.map((container, index) => (
           <div
             key={index}
             className="flex items-start justify-between mt-20 w-full"
           >
             <div className="w-full">
-              <Container
+              <ContainerGrillRow
                 index={index}
                 position={container.position}
                 alignment={container.alignment}

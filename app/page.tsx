@@ -1,12 +1,12 @@
 "use client";
 
-import ShopNow from "@/ui//shop-now-btn/shop-now";
-import Textbox from "@/ui//textbox/textbox";
-import Title from "@/ui/title/title";
+import ShopNow from "@/ui/shop-now-btn/ShopNow";
+import Textbox from "@/ui/textbox/Textbox";
+import Title from "@/ui/title/Title";
 import { NextPage } from "next";
 import Link from "next/link";
 import React from "react";
-import mock from "@/public/mocks/product.json";
+import mockedProducts from "@/public/mocks/product.json";
 
 interface Props {}
 
@@ -24,7 +24,7 @@ const Page: NextPage<Props> = ({}) => {
       </div>
       <Textbox onInputChange={handleInputChange} />
       <div className="mt-20">
-        {Number(quantity) < mock.length ? (
+        {Number(quantity) < mockedProducts.length ? (
           <Link href={`/${quantity}`}>
             <ShopNow />
           </Link>

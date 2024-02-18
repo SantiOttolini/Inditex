@@ -1,8 +1,4 @@
-import { NextPage } from "next";
-
-interface Props {}
-
-const Title: NextPage<Props> = ({}) => {
+const Title: React.FC = () => {
   return (
     <button className="button" data-text="Awesome">
       <span className="actual-text">&nbsp;inditex&nbsp;</span>

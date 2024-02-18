@@ -1,5 +1,3 @@
-import { NextPage } from "next";
-
 const ShopNow: React.FC = () => {
   return (
     <button className="btn-shop">

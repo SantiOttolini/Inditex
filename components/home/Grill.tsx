@@ -1,27 +1,27 @@
 import React from "react";
 
 interface Props {
-  templateName: string;
-  onTemplateLoad: (templateName: string) => void;
-  onTemplateDelete: (templateName: string) => void;
+  grillName: string;
+  onGrillLoad: (grillName: string) => void;
+  onGrillDelete: (grillName: string) => void;
 }
 
 export const Grill: React.FC<Props> = ({
-  templateName,
-  onTemplateLoad,
-  onTemplateDelete,
+  grillName,
+  onGrillLoad,
+  onGrillDelete,
 }) => {
   return (
     <div className="flex mt-2 ml-1">
       <button
         className="bg-gray-200 rounded-xl w-32 py-0.5"
-        onClick={() => onTemplateLoad(templateName)}
+        onClick={() => onGrillLoad(grillName)}
       >
-        {templateName}
+        {grillName}
       </button>
       <button
         className="rounded-full bg-red-600 p-1.5 ml-2 flex items-center justify-center text-white"
-        onClick={() => onTemplateDelete(templateName)}
+        onClick={() => onGrillDelete(grillName)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
