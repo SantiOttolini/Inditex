@@ -1,9 +1,18 @@
 "use client";
-import { useDraggable, useDroppable } from "@dnd-kit/core";
-import React from "react";
+import {
+  useDraggable,
+  useDroppable,
+  DndContext,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import { SortableContext } from "@dnd-kit/sortable";
+import React, { useState } from "react";
 import mockedProducts from "@/public/mocks/product.json";
-import Products from "@/components/products/Products";
+import { SortableProduct } from "../products/SortableProduct";
+import { Draggable } from "../products/DrageablProduct";
+import { Droppable } from "../products/DroppableProduct";
 import Tab from "@/ui/tab/Tab";
+import { Product } from "@/app/types/product";
 
 export const ContainerGrillRow: React.FC<{
   index: number;
@@ -31,6 +40,14 @@ export const ContainerGrillRow: React.FC<{
     handleAlignmentChange(value, index);
   };
 
+  const [activeId, setActiveId] = useState(null);
+  function handleDragStart(event: any) {
+    setActiveId(event.active.id);
+  }
+
+  function handleDragEnd() {
+    setActiveId(null);
+  }
   return (
     Number(url) < mockedProducts.length && (
       <>
@@ -60,7 +77,6 @@ export const ContainerGrillRow: React.FC<{
             />
           </div>
         </div>
-
         <div className="w-full">
           <div
             key={position}
@@ -73,36 +89,39 @@ export const ContainerGrillRow: React.FC<{
               isDragging ? "opacity-10" : ""
             } transition-opacity duration-300`}
           >
-            <div
-              ref={setDropNodeRef}
-              className={`flex flex-row justify-${alignment} items-center h-44`}
-              style={{ minHeight: "200px" }}
-            >
-              {mockedProducts
-                .slice(startProductIndex - 1, endProductIndex)
-                .map((product, index) => (
-                  <div key={index} className="m-1 md:m-10">
-                    <DraggableProduct productId={product.id}>
-                      <Products id={Number(product.id)} />
-                    </DraggableProduct>
-                  </div>
-                ))}
-            </div>
+            <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+              <SortableContext
+                items={mockedProducts.slice(
+                  startProductIndex - 1,
+                  endProductIndex
+                )}
+              >
+                <div
+                  ref={setDropNodeRef}
+                  className={`flex flex-row justify-${alignment} items-center h-44`}
+                  style={{ minHeight: "200px" }}
+                >
+                  {mockedProducts
+                    .slice(startProductIndex - 1, endProductIndex)
+                    .map((product: Product, index: number) => (
+                      <div key={index} className="m-1 md:m-10">
+                        <Draggable key={product.id} id={product.id}>
+                          <Droppable key={product.id} id={product.id}>
+                            <SortableProduct
+                              key={product.id}
+                              id={product.id}
+                              product={product}
+                            />
+                          </Droppable>
+                        </Draggable>
+                      </div>
+                    ))}
+                </div>
+              </SortableContext>
+            </DndContext>
           </div>
         </div>
       </>
     )
-  );
-};
-
-const DraggableProduct = ({ productId, children }: any) => {
-  const { attributes, listeners, setNodeRef } = useDraggable({
-    id: productId.toString(),
-  });
-
-  return (
-    <div ref={setNodeRef} {...attributes} {...listeners}>
-      {children}
-    </div>
   );
 };

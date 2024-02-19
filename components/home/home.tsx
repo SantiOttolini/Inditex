@@ -1,5 +1,5 @@
 import mock from "@/public/mocks/product.json";
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import SaveButton from "@/ui/save-button/SaveButton";
 import { toast } from "react-toastify";
 import Loader from "@/ui/loader/loader";
@@ -14,6 +14,7 @@ interface Props {
 const Home: React.FC<Props> = ({ params }) => {
   const numProducts = Number(params.id);
   const numContainers = Math.ceil(numProducts / 3);
+
   const url = window.location.pathname.replace("/", "");
   const queryString = window.location.href.split("?")[1];
   const grillName = queryString?.replace(/grill(\d+)/, "Grill $1");
@@ -56,7 +57,7 @@ const Home: React.FC<Props> = ({ params }) => {
           "Position products and rows using drag and drop and save your grills !",
           {
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 10000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -70,7 +71,7 @@ const Home: React.FC<Props> = ({ params }) => {
     }
   }, []);
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (!over) return;
