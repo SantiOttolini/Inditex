@@ -6,7 +6,6 @@ import Loader from "@/ui/loader/loader";
 import { Grill } from "./Grill";
 import DragAndDrop from "./DragAndDrop";
 import React from "react";
-import { useTheme } from "next-themes";
 
 interface Props {
   params: { id: string };
@@ -15,7 +14,6 @@ interface Props {
 const Home: React.FC<Props> = ({ params }) => {
   const numProducts = Number(params.id);
   const numContainers = Math.ceil(numProducts / 3);
-  const { theme, setTheme } = useTheme();
   const url = window.location.pathname.replace("/", "");
   const queryString = window.location.href.split("?")[1];
   const grillName = queryString?.replace(/grill(\d+)/, "Grill $1");
