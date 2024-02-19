@@ -6,6 +6,7 @@ import Loader from "@/ui/loader/loader";
 import { Grill } from "./Grill";
 import DragAndDrop from "./DragAndDrop";
 import React from "react";
+import { useTheme } from "next-themes";
 
 interface Props {
   params: { id: string };
@@ -14,7 +15,7 @@ interface Props {
 const Home: React.FC<Props> = ({ params }) => {
   const numProducts = Number(params.id);
   const numContainers = Math.ceil(numProducts / 3);
-
+  const { theme, setTheme } = useTheme();
   const url = window.location.pathname.replace("/", "");
   const queryString = window.location.href.split("?")[1];
   const grillName = queryString?.replace(/grill(\d+)/, "Grill $1");
@@ -46,6 +47,29 @@ const Home: React.FC<Props> = ({ params }) => {
     );
     setSavedGrills(savedGrillKeys);
     setGrillCounter(savedGrillKeys.length);
+  }, []);
+
+  React.useEffect(() => {
+    const url = window.location.pathname;
+    if (/\d+/.test(url)) {
+      const hasVisited = localStorage.getItem("visited");
+      if (!hasVisited) {
+        toast.info(
+          "Position products and rows using drag and drop and save your grills !",
+          {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          }
+        );
+        localStorage.setItem("visited", "true");
+      }
+    }
   }, []);
 
   const handleDragEnd = (event: any) => {
